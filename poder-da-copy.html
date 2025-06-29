@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playbook Interativo de Copywriting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Calm Harmony (Amber, Slate, Orange) -->
+    <!-- Application Structure Plan: A "Copywriting Playbook" SPA. The structure is task-oriented, not a mirror of the report. It starts with a Hero section, followed by a sticky navigation to jump to key interactive sections: 1. 'Fundamentos' for core principles. 2. 'Fórmulas' with interactive cards for AIDA, PAS etc. 3. 'Gatilhos Mentais' featuring a radar chart for visual comparison. 4. A practical 'Gerador de Copy' tool to create scripts for different channels/goals. 5. A 'Otimização' section with a 'Do's & Don'ts' visual format. This user flow moves from theory to practice, enhancing engagement and usability by turning static text into an actionable toolkit. -->
+    <!-- Visualization & Content Choices: Report Info -> Key copywriting frameworks (AIDA, PAS). Goal -> Organize and Compare. Viz/Method -> Interactive HTML/CSS cards. Interaction -> On click, cards expand to reveal details. Justification -> More engaging than a static list, encourages exploration. || Report Info -> Mental Triggers Table. Goal -> Visualize and Compare Impact. Viz/Method -> Chart.js Radar Chart. Interaction -> Visual comparison of trigger 'power'. Justification -> Provides a quick visual summary of the triggers' perceived strengths, more impactful than a table. || Report Info -> Script Examples. Goal -> Apply and Customize. Viz/Method -> HTML form with dropdowns and a text display area. Interaction -> User selects channel/goal, JS displays the relevant customizable script. Justification -> Turns passive examples into an active, practical tool for the user. || Report Info -> Common Mistakes. Goal -> Inform and Guide. Viz/Method -> Two-column 'Do's & Don'ts' layout with icons. Interaction -> Clear visual separation. Justification -> Easily scannable and digestible format for quick learning. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fefce8; /* amber-50 */
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link:hover {
+            color: #f97316; /* orange-500 */
+        }
+        .nav-link.active {
+            color: #f97316; /* orange-500 */
+            border-bottom-color: #f97316; /* orange-500 */
+        }
+        .formula-card-header {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .formula-card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1), padding 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .formula-card-content.open {
+            max-height: 1000px; /* Large enough to fit content */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-amber-100/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-slate-900">Playbook de Copy</h1>
+            <div class="hidden md:flex space-x-6">
+                <a href="#fundamentos" class="nav-link font-medium border-b-2 border-transparent pb-1">Fundamentos</a>
+                <a href="#formulas" class="nav-link font-medium border-b-2 border-transparent pb-1">Fórmulas</a>
+                <a href="#gatilhos" class="nav-link font-medium border-b-2 border-transparent pb-1">Gatilhos</a>
+                <a href="#gerador" class="nav-link font-medium border-b-2 border-transparent pb-1">Gerador de Copy</a>
+                <a href="#otimizacao" class="nav-link font-medium border-b-2 border-transparent pb-1">Otimização</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-slate-800">
+                <span class="menu-icon-open">☰</span>
+                <span class="menu-icon-close hidden">✕</span>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-amber-100/95">
+            <a href="#fundamentos" class="block text-center py-3 px-6 nav-link-mobile">Fundamentos</a>
+            <a href="#formulas" class="block text-center py-3 px-6 nav-link-mobile">Fórmulas</a>
+            <a href="#gatilhos" class="block text-center py-3 px-6 nav-link-mobile">Gatilhos</a>
+            <a href="#gerador" class="block text-center py-3 px-6 nav-link-mobile">Gerador de Copy</a>
+            <a href="#otimizacao" class="block text-center py-3 px-6 nav-link-mobile">Otimização</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-16">
+
+        <!-- Hero Section -->
+        <section id="hero" class="text-center mb-16 md:mb-24">
+            <h2 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-4">Desbloqueie o Poder da Copy</h2>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-slate-600">Transforme palavras em vendas com este playbook interativo. Explore estratégias, fórmulas e gatilhos mentais para criar mensagens que conectam, convencem e convertem.</p>
+        </section>
+
+        <!-- Seção 1: Fundamentos -->
+        <section id="fundamentos" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">Fundamentos da Persuasão</h3>
+                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Toda grande copy começa com uma base sólida. Antes de escrever, é crucial entender quem é sua audiência e quais princípios guiam uma comunicação eficaz e persuasiva.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md border border-amber-200">
+                    <h4 class="font-bold text-xl mb-2 text-orange-600">Conheça sua Audiência</h4>
+                    <p class="text-slate-600">A copy eficaz fala diretamente aos desejos e dores do seu público. Pesquise sua persona, entenda suas motivações e crie uma conexão genuína. A personalização é a chave.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-amber-200">
+                    <h4 class="font-bold text-xl mb-2 text-orange-600">Clareza Acima de Tudo</h4>
+                    <p class="text-slate-600">Linguagem complicada afasta. Use parágrafos curtos, frases diretas e uma formatação limpa. Se o seu leitor precisa de um dicionário, você já o perdeu. Clareza vende.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-amber-200">
+                    <h4 class="font-bold text-xl mb-2 text-orange-600">Foco nos Benefícios</h4>
+                    <p class="text-slate-600">Clientes não compram características, eles compram resultados. Traduza o que seu produto faz (característica) para como ele melhora a vida do cliente (benefício).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 2: Fórmulas -->
+        <section id="formulas" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">As Fórmulas do Sucesso</h3>
+                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Não precisa começar do zero. Use estas estruturas testadas e aprovadas para guiar sua escrita e construir argumentos persuasivos de forma lógica e eficaz. Clique em cada fórmula para expandir.</p>
+            </div>
+            <div id="formulas-container" class="space-y-4 max-w-4xl mx-auto">
+                <!-- Fórmulas serão injetadas aqui pelo JS -->
+            </div>
+        </section>
+
+        <!-- Seção 3: Gatilhos Mentais -->
+        <section id="gatilhos" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">O Arsenal de Gatilhos Mentais</h3>
+                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Gatilhos mentais são atalhos psicológicos que influenciam a decisão de compra. Use-os com ética para criar uma conexão emocional e motivar a ação. O gráfico abaixo ilustra o poder relativo de cada gatilho.</p>
+            </div>
+            <div class="chart-container bg-white p-4 rounded-lg shadow-md border border-amber-200">
+                <canvas id="gatilhosChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Seção 4: Gerador de Copy -->
+        <section id="gerador" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">Gerador de Copy Prática</h3>
+                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Precisa de uma mensagem rápida? Selecione o canal e o seu objetivo para gerar um modelo de copy adaptado e pronto para usar. Personalize os campos entre colchetes [ ] para se adequar à sua oferta.</p>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-amber-200 max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="canal-select" class="block text-sm font-medium text-slate-700 mb-1">Selecione o Canal:</label>
+                        <select id="canal-select" class="w-full p-2 border border-slate-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500">
+                            <option value="direct">Direct Message (Instagram/LinkedIn)</option>
+                            <option value="whatsapp">WhatsApp (Follow-up)</option>
+                            <option value="post">Post (Promoção)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="objetivo-select" class="block text-sm font-medium text-slate-700 mb-1">Selecione o Objetivo:</label>
+                        <select id="objetivo-select" class="w-full p-2 border border-slate-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500">
+                            <option value="prospeccao">Prospecção (Novo Cliente)</option>
+                            <option value="promocao">Vender Promoção</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="copy-output-container" class="bg-amber-50 p-4 rounded-md border-l-4 border-orange-500">
+                    <h5 class="font-bold mb-2">Seu Modelo de Copy:</h5>
+                    <p id="copy-output" class="text-slate-700 whitespace-pre-wrap"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 5: Otimização e Erros a Evitar -->
+        <section id="otimizacao" class="scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">Otimize e Evite Erros</h3>
+                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Uma boa copy é um processo de melhoria contínua. Conheça as melhores práticas e fuja das armadilhas mais comuns para garantir que sua mensagem atinja o máximo potencial.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Coluna "Fazer" -->
+                <div class="bg-green-50 p-6 rounded-lg border border-green-300">
+                    <h4 class="text-2xl font-bold text-green-800 mb-4">✅ O Que Fazer</h4>
+                    <ul class="space-y-3 text-green-900">
+                        <li><strong class="font-semibold">Teste A/B:</strong> Compare títulos, CTAs e abordagens. Deixe os dados guiarem suas decisões.</li>
+                        <li><strong class="font-semibold">Seja Consistente:</strong> Mantenha um tom de voz coeso que reflita sua marca em todos os canais.</li>
+                        <li><strong class="font-semibold">Antecipe Objeções:</strong> Aborde as dúvidas comuns do seu cliente de forma proativa para construir confiança.</li>
+                         <li><strong class="font-semibold">Pense Mobile-First:</strong> Garanta que sua copy seja perfeitamente legível e atraente em telas pequenas.</li>
+                    </ul>
+                </div>
+                <!-- Coluna "Não Fazer" -->
+                 <div class="bg-red-50 p-6 rounded-lg border border-red-300">
+                    <h4 class="text-2xl font-bold text-red-800 mb-4">❌ O Que Evitar</h4>
+                    <ul class="space-y-3 text-red-900">
+                        <li><strong class="font-semibold">Linguagem Complicada:</strong> Não force seu leitor a pensar demais. Simplicidade e clareza convertem.</li>
+                        <li><strong class="font-semibold">Focar em Características:</strong> Ninguém se importa com o jargão técnico. Mostre o benefício final.</li>
+                        <li><strong class="font-semibold">Ignorar o CTA:</strong> Nunca deixe seu leitor sem saber o que fazer. Dê uma instrução clara e direta.</li>
+                        <li><strong class="font-semibold">Ser Genérico:</strong> Sem conhecer seu produto e cliente, sua copy será fraca e sem impacto.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-amber-100 mt-16 md:mt-24">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>Playbook de Copywriting Interativo</p>
+            <p class="text-sm text-slate-400 mt-1">Transformando insights em ferramentas práticas.</p>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const formulasData = [
+        {
+            name: 'AIDA',
+            title: 'Atenção, Interesse, Desejo, Ação',
+            description: 'Um funil clássico para guiar o leitor. Perfeito para anúncios e e-mails que contam uma história.',
+            steps: [
+                { title: 'Atenção', text: 'Capture o interesse com um título ou imagem impactante.' },
+                { title: 'Interesse', text: 'Apresente informações e benefícios que prendam o leitor.' },
+                { title: 'Desejo', text: 'Mostre como sua solução pode transformar a vida do leitor, criando uma conexão emocional.' },
+                { title: 'Ação', text: 'Finalize com uma chamada para ação (CTA) clara e direta.' }
+            ]
+        },
+        {
+            name: 'PAS',
+            title: 'Problema, Agitação, Solução',
+            description: 'Foca na dor do cliente. Excelente para posts de blog e páginas de venda que oferecem uma solução direta.',
+            steps: [
+                { title: 'Problema', text: 'Identifique e apresente um problema que sua audiência enfrenta.' },
+                { title: 'Agitação', text: 'Intensifique o problema, mostrando as consequências e frustrações de não resolvê-lo.' },
+                { title: 'Solução', text: 'Apresente seu produto ou serviço como a resposta definitiva para essa dor.' }
+            ]
+        },
+        {
+            name: 'B-A-B',
+            title: 'Before, After, Bridge (Antes, Depois, Ponte)',
+            description: 'Cria um contraste poderoso entre a situação atual e um futuro melhorado.',
+            steps: [
+                { title: 'Antes (Before)', text: 'Descreva o mundo do seu cliente com o problema atual.' },
+                { title: 'Depois (After)', text: 'Pinte um quadro de como seria o mundo sem esse problema.' },
+                { title: 'Ponte (Bridge)', text: 'Mostre como sua solução é a ponte que leva do "Antes" para o "Depois".' }
+            ]
+        },
+        {
+            name: 'PPPP',
+            title: 'Promise, Picture, Proof, Push',
+            description: 'Uma fórmula direta que constrói confiança através de provas concretas.',
+            steps: [
+                { title: 'Promessa (Promise)', text: 'Faça uma promessa forte sobre como você vai transformar a vida do leitor.' },
+                { title: 'Cenário (Picture)', text: 'Descreva de forma vívida como essa transformação acontecerá.' },
+                { title: 'Prova (Proof)', text: 'Ofereça depoimentos, dados ou estudos de caso que validem sua promessa.' },
+                { title: 'Empurrão (Push)', text: 'Incentive o leitor a agir agora com um CTA claro.' }
+            ]
+        }
+    ];
+
+    const formulasContainer = document.getElementById('formulas-container');
+    formulasData.forEach(formula => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-lg shadow-md border border-amber-200 overflow-hidden';
+        
+        let stepsHtml = formula.steps.map(step => `
+            <div class="mt-4">
+                <h6 class="font-semibold text-orange-600">${step.title}</h6>
+                <p class="text-slate-600 text-sm">${step.text}</p>
+            </div>
+        `).join('');
+
+        card.innerHTML = `
+            <div class="formula-card-header p-5 flex justify-between items-center">
+                <div>
+                    <h5 class="text-xl font-bold">${formula.name}</h5>
+                    <p class="text-sm text-slate-500">${formula.title}</p>
+                </div>
+                <span class="text-2xl font-light text-orange-500 transform transition-transform duration-500">+</span>
+            </div>
+            <div class="formula-card-content">
+                <div class="p-5 pt-0">
+                    <p class="text-slate-700 mb-4">${formula.description}</p>
+                    ${stepsHtml}
+                </div>
+            </div>
+        `;
+        formulasContainer.appendChild(card);
+    });
+
+    formulasContainer.addEventListener('click', function (e) {
+        const header = e.target.closest('.formula-card-header');
+        if (header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('span');
+            const isOpen = content.classList.contains('open');
+
+            // Close all other open cards
+            document.querySelectorAll('.formula-card-content.open').forEach(openContent => {
+                if (openContent !== content) {
+                    openContent.classList.remove('open');
+                    openContent.previousElementSibling.querySelector('span').classList.remove('rotate-45');
+                }
+            });
+
+            // Toggle current card
+            content.classList.toggle('open');
+            icon.classList.toggle('rotate-45');
+        }
+    });
+
+    const gatilhosCtx = document.getElementById('gatilhosChart').getContext('2d');
+    const gatilhosChart = new Chart(gatilhosCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Escassez', 'Prova Social', 'Autoridade', 'Reciprocidade', 'Curiosidade', 'Exclusividade', 'Transformação'],
+            datasets: [{
+                label: 'Poder do Gatilho',
+                data: [9, 8, 7, 6, 8, 7, 9],
+                backgroundColor: 'rgba(249, 115, 22, 0.2)',
+                borderColor: 'rgba(249, 115, 22, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(249, 115, 22, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(249, 115, 22, 1)'
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(100, 116, 139, 0.2)' },
+                    grid: { color: 'rgba(100, 116, 139, 0.2)' },
+                    pointLabels: {
+                        font: { size: 12, weight: '500' },
+                        color: '#334155'
+                    },
+                    ticks: {
+                        backdropColor: 'rgba(255, 251, 235, 0)',
+                        color: '#64748b',
+                        stepSize: 2
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 10
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    const copyTemplates = {
+        direct: {
+            prospeccao: `Olá, [nome da pessoa]! Tudo bem?\n\nVi que você trabalha com [área de atuação do prospect] e imagino que [dor/desafio comum da persona] seja algo que exige atenção.\n\nEu sou Copywriter e ajudo negócios como o seu a aumentarem o faturamento com textos mais persuasivos, que reduzem custos com anúncios e atraem mais clientes.\n\nGostaria de propor um experimento rápido e sem custo: eu crio a copy para um dos seus próximos anúncios e, se você gostar do resultado, podemos conversar sobre uma parceria.\n\nFaz sentido para você testar a possibilidade de vender mais?`,
+            promocao: `Olá, [nome da pessoa]! Vi que você acompanha nosso perfil e por isso tenho uma oportunidade para você.\n\nEstamos com uma promoção exclusiva no nosso [nome do produto/serviço], que te ajuda a [principal benefício].\n\nAté [data final], você garante [desconto ou bônus]! É a sua chance de resolver [problema] de uma vez por todas.\n\nQuer saber mais? É só responder essa mensagem!`
+        },
+        whatsapp: {
+            prospeccao: `Olá, [nome]. Tudo bem? Sou o [seu nome] da [sua empresa].\n\nVi que você se interessou por [produto/serviço que ele viu]. Muitas empresas no seu setor [setor do cliente] enfrentam o desafio de [desafio específico].\n\nNossa solução ajuda exatamente nisso, proporcionando [benefício 1] e [benefício 2].\n\nGostaria de conversar por 10 minutos para te mostrar como podemos te ajudar a alcançar [resultado desejado]?`,
+            promocao: `Olá, [nome]! Tudo certo?\n\nPassando para te avisar que aquela oferta de [nome da promoção] que você demonstrou interesse está nas últimas horas!\n\nRestam poucas unidades/vagas com o valor especial de [preço promocional]. Não perca a chance de garantir [principal benefício].\n\nPosso te ajudar a finalizar a compra? O link é este: [seu link]`
+        },
+        post: {
+            promocao: `🚨 ÚLTIMA CHAMADA! 🚨\n\nVocê está cansado(a) de [dor que o produto resolve]? Imagine ter [resultado desejado] sem precisar mais se preocupar com [obstáculo comum].\n\nNosso [nome do produto] foi criado para isso! E SÓ ATÉ [data final], você leva com [desconto]% de desconto + [bônus incrível].\n\n✅ [Benefício 1]\n✅ [Benefício 2]\n✅ [Benefício 3]\n\nMilhares de clientes já transformaram [área da vida/negócio]. Veja os depoimentos nos stories!\n\nClique no link da bio e garanta o seu AGORA, antes que acabe!\n\n#promoção #[palavra-chave] #[seu nicho]`
+        }
+    };
+    
+    // Prospeccao post não é uma combinação comum, então usamos a de promoção como fallback
+    copyTemplates.post.prospeccao = copyTemplates.post.promocao;
+    
+    const canalSelect = document.getElementById('canal-select');
+    const objetivoSelect = document.getElementById('objetivo-select');
+    const copyOutput = document.getElementById('copy-output');
+
+    function updateCopy() {
+        const canal = canalSelect.value;
+        const objetivo = objetivoSelect.value;
+        copyOutput.textContent = copyTemplates[canal][objetivo];
+    }
+
+    canalSelect.addEventListener('change', updateCopy);
+    objetivoSelect.addEventListener('change', updateCopy);
+
+    updateCopy();
+
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIconOpen = document.querySelector('.menu-icon-open');
+    const menuIconClose = document.querySelector('.menu-icon-close');
+
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        menuIconOpen.classList.toggle('hidden');
+        menuIconClose.classList.toggle('hidden');
+    });
+    
+    document.querySelectorAll('.nav-link-mobile').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            menuIconOpen.classList.remove('hidden');
+            menuIconClose.classList.add('hidden');
+        });
+    });
+    
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 100) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>
